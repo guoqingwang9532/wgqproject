@@ -47,9 +47,11 @@ class publicController extends Controller
 		//dump($res);
 		if ($res) {
 			session('uid',$res['id']);
+			session('username',$res['username']);
 			$arr = array(
 				'id' => $res['id'],
-				'lasttime' => time()
+				'lasttime' => time(),
+				'count' => $res['count']+1,
 				);
 			$model->save($arr);
 			$this->success('登录成功',U('Index/index'),2);
@@ -72,6 +74,17 @@ class publicController extends Controller
 		} else {
 			echo 0;
 		}
+	}
+	//退出登录的
+	public function logout()
+	{
+		session(null);
+		$this->success('成功退出',U('login'),2);
+	}
+	public function changeUser()
+	{
+		session(null);
+		$this->success('请等待',U('login'),2);
 	}
 }
 

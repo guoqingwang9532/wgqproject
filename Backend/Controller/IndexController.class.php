@@ -1,8 +1,55 @@
 <?php
-namespace Home\Controller;
+namespace Backend\Controller;
 use Think\Controller;
+use Org\Net\IpLocation;
 class IndexController extends Controller {
     public function index(){
-        $this->show('<style type="text/css">*{ padding: 0; margin: 0; } div{ padding: 4px 48px;} body{ background: #fff; font-family: "微软雅黑"; color: #333;font-size:24px} h1{ font-size: 100px; font-weight: normal; margin-bottom: 12px; } p{ line-height: 1.8em; font-size: 36px } a,a:hover{color:blue;}</style><div style="padding: 24px 48px;"> <h1>:)</h1><p>欢迎使用 <b>ThinkPHP</b>！</p><br/>版本 V{$Think.version}</div><script type="text/javascript" src="http://ad.topthink.com/Public/static/client.js"></script><thinkad id="ad_55e75dfae343f5a1"></thinkad><script type="text/javascript" src="http://tajs.qq.com/stats?sId=9347272" charset="UTF-8"></script>','utf-8');
+       $this->display();
+    }
+    public function welcome()
+    {
+    	header('Content-Type:text/html;Charset=utf-8');
+    	$model = M('User');
+    	//echo session('uid');
+    	$data = $model->where(session('uid'))->find();
+    	//dump($data);die;
+    	//分配到模板
+    	/*$this->assign('data',$data);
+    	$this->display();*/
+    	//echo $data['lastip'];
+    	$ipNum = long2ip($data['lastip']);
+    	//echo $ipNum;die;
+    	//这部是把ip转化为实际地址
+    	$class = new IpLocation('qqwry.dat');
+        //dump($class);die;
+    	$addres = $class ->getlocation('114.249.248.112');
+        //dump($addres);
+         $addres2 = iconv('gbk', 'utf-8', $addres['country']);
+    	 $addres = iconv('gbk', 'utf-8', $addres['area']);
+    	 $model->save(array('id' =>$data['id'],'city'=>$addres2));
+         //dump($addres);die;
+    	 $this->assign('data',$data);
+    	 $this->assign('addres',$addres);
+    	 $this->assign('addres2',$addres2);
+    	 $this->assign('ip',$ipNum);
+
+    	 //$this->display();
+         //这步是调用天气借口
+         $weather = $this->weather($addres2);
+         $weatherDate = $weather->results->result[0];
+         $detailWeather = $weatherDate->weather.'&emsp;'.$weatherDate->wind.'&emsp;'.$weatherDate->temperature;
+         //dump($detailWeather);
+         $this->assign('detailWeather', $detailWeather);
+         $this->display();
+    	
+    }
+    public function weather($city)
+    {
+        $url = 'http://api.map.baidu.com/telematics/v2/weather?location='.$city.'&ak=B8aced94da0b345579f481a1294c9094';
+        $content = request($url);
+        //dump($content);
+        $res = simplexml_load_string($content);
+        //dump($res->results->result[0]->weather);
+        return $res;
     }
 }
