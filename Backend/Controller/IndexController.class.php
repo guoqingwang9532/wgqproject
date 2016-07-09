@@ -35,11 +35,11 @@ class IndexController extends Controller {
 
     	 //$this->display();
          //这步是调用天气借口
-         $weather = $this->weather($addres2);
+         /*$weather = $this->weather($addres2);
          $weatherDate = $weather->results->result[0];
          $detailWeather = $weatherDate->weather.'&emsp;'.$weatherDate->wind.'&emsp;'.$weatherDate->temperature;
          //dump($detailWeather);
-         $this->assign('detailWeather', $detailWeather);
+         $this->assign('detailWeather', $detailWeather);*/
          $this->display();
     	
     }

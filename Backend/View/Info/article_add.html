@@ -20,6 +20,35 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
+<script type="text/javascript" src="__PUBLIC__/Backend/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/Backend/lib/layer/1.9.3/layer.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/Backend/lib/My97DatePicker/WdatePicker.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/Backend/lib/icheck/jquery.icheck.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/Backend/lib/Validform/5.3.2/Validform.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/Backend/lib/webuploader/0.1.5/webuploader.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/Backend/lib/ueditor/1.4.3/ueditor.config.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/Backend/lib/ueditor/1.4.3/ueditor.all.min.js"> </script> 
+<script type="text/javascript" src="__PUBLIC__/Backend/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/Backend/js/H-ui.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/Backend/js/H-ui.admin.js"></script> 
+<script type="text/javascript">
+$(function(){
+	$('#getSon').change(function(){
+		var id = $('#getSon').val();
+		$.get("{:U('Info/getSon')}",{'id': id},function(data){
+			//alert(data);
+			data1 = JSON.parse(data);
+			//console.log(data1);
+			str='<option value="0">全部类型</option>'
+			for (var i = 0;i<data1.length; i++) {
+				str+='<option value='+data1[i].id+'>'+data1[i].name+'</option>';
+			}
+			/*alert(str);*/
+			$('#getSun').html(str)
+		})
+	})
+})
+</script>
 <title>新增文章</title>
 </head>
 <body>
@@ -40,17 +69,17 @@
 		<div class="row cl">
 			<label class="form-label col-2"><span class="c-red">*</span>分类栏目：</label>
 			<div class="formControls col-2"> <span class="select-box">
-				<select name="a_cate" class="select">
+				<select class="select"  id='getSon'>
 					<option value="0">全部栏目</option>
-					<option value="1">新闻资讯</option>
-					<option value="11">├行业动态</option>
-					<option value="12">├行业资讯</option>
-					<option value="13">├行业新闻</option>
+					<volist name='data' id='vol'>
+					<option value="{$vol.id}">{$vol.name}</option>
+					</volist>
+					
 				</select>
 				</span> </div>
 			<label class="form-label col-2"><span class="c-red">*</span>文章类型：</label>
 			<div class="formControls col-2"> <span class="select-box">
-				<select name="a_cate" class="select">
+				<select name="a_cate" class="select"id='getSun'>
 					<option value="0">全部类型</option>
 					<option value="1">帮助说明</option>
 					<option value="2">新闻资讯</option>
@@ -75,40 +104,9 @@
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-2">文章作者：</label>
-			<div class="formControls col-2">
-				<input type="text" class="input-text" value="0" placeholder="" id="" name="author">
-			</div>
 			<label class="form-label col-2">文章来源：</label>
 			<div class="formControls col-2">
 				<input type="text" class="input-text" value="0" placeholder="" id="" name="source">
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-2">允许评论：</label>
-			<div class="formControls col-2 skin-minimal">
-				<div class="check-box">
-					<input type="checkbox" id="checkbox-pinglun">
-					<label for="checkbox-pinglun">&nbsp;</label>
-				</div>
-			</div>
-			<label class="form-label col-2">评论开始日期：</label>
-			<div class="formControls col-2">
-				<input type="text"  id="datemin" class="input-text Wdate">
-			</div>
-			<label class="form-label col-2">评论结束日期：</label>
-			<div class="formControls col-2">
-				<input type="text" id="datemax" class="input-text Wdate">
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-2">使用独立模版：</label>
-			<div class="formControls col-10 skin-minimal">
-				<div class="check-box">
-					<input type="checkbox" id="checkbox-moban">
-					<label for="checkbox-moban">&nbsp;</label>
-				</div>
-				<button onClick="mobanxuanze()" class="btn btn-default radius ml-10">选择模版</button>
 			</div>
 		</div>
 		<div class="row cl">
