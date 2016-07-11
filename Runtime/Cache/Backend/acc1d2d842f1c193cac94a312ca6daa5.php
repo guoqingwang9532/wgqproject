@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML>
+<?php if (!defined('THINK_PATH')) exit();?>﻿<!DOCTYPE HTML>
 <html>
 <head>
 <meta charset="utf-8">
@@ -11,10 +11,10 @@
 <script type="text/javascript" src="lib/respond.min.js"></script>
 <script type="text/javascript" src="lib/PIE_IE678.js"></script>
 <![endif]-->
-<link href="__PUBLIC__/Backend/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="__PUBLIC__/Backend/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="__PUBLIC__/Backend/css/style.css" rel="stylesheet" type="text/css" />
-<link href="__PUBLIC__/Backend/lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
+<link href="/wgqproject/Public/Backend/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="/wgqproject/Public/Backend/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+<link href="/wgqproject/Public/Backend/css/style.css" rel="stylesheet" type="text/css" />
+<link href="/wgqproject/Public/Backend/lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
 <!--[if IE 6]>
 <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
@@ -54,40 +54,33 @@
 				</tr>
 			</thead>
 			<tbody>
-			<volist name='data' id='vol'>
-				<tr class="text-c">
-					<td><input type="checkbox" value="{$vol.id}" name="ckdel"class='ck'></td>
-					<td>{$vol.id}</td>
-					<td class="text-l"><u style="cursor:pointer" class="text-primary" onClick="article_edit('查看','article-zhang.html','10001')" title="查看">{$vol.title}</u></td>
-					<td>{$vol.catename}</td>
-					<td>{$vol.source}</td>
-					<td>{$vol.update_time|date='Y-m-d H:i:s',###}</td>
-					<td>{$vol.r_count}</td>
+			<?php if(is_array($data)): $i = 0; $__LIST__ = $data;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vol): $mod = ($i % 2 );++$i;?><tr class="text-c">
+					<td><input type="checkbox" value="<?php echo ($vol["id"]); ?>" name="ckdel"class='ck'></td>
+					<td><?php echo ($vol["id"]); ?></td>
+					<td class="text-l"><u style="cursor:pointer" class="text-primary" onClick="article_edit('查看','article-zhang.html','10001')" title="查看"><?php echo ($vol["title"]); ?></u></td>
+					<td><?php echo ($vol["catename"]); ?></td>
+					<td><?php echo ($vol["source"]); ?></td>
+					<td><?php echo (date('Y-m-d H:i:s',$vol["update_time"])); ?></td>
+					<td><?php echo ($vol["r_count"]); ?></td>
 					<td class="td-status"><span class="label label-success radius">
-					<if condition="$vol.status == 0 ">草稿<elseif condition=" $vol.status == 1 && $vol.isold == 0 "/>已发布<else/> <span class="label label-defaunt radius">已下架</span></if>
+					<?php if($vol["status"] == 0 ): ?>草稿<?php elseif( $vol["status"] == 1 && $vol["isold"] == 0 ): ?>已发布<?php else: ?> <span class="label label-defaunt radius">已下架</span><?php endif; ?>
 					</span></td>
 					<td class="f-14 td-manage">
-					<if  condition="$vol.status == 1 ">
-						<if condition="$vol.isold == 0 ">
-					<a style="text-decoration:none" onClick="article_stop(this,{$vol.id})" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a>
-					<else/>
-					<a style="text-decoration:none" onClick="article_start(this,{$vol.id})" href="javascript:;" title="发布"><i class="Hui-iconfont">&#xe603;</i></a>
-					</if>
-
-					</if>
-					<a style="text-decoration:none" class="ml-5" onClick="article_edit('资讯编辑','article-add.html','10001')" href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a> <a style="text-decoration:none" class="ml-5" onClick="article_del(this,{$vol.id})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-				</tr>
-		</volist>
+					<?php if($vol["status"] == 1 ): if($vol["isold"] == 0 ): ?><a style="text-decoration:none" onClick="article_stop(this,<?php echo ($vol["id"]); ?>)" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a>
+					<?php else: ?>
+					<a style="text-decoration:none" onClick="article_start(this,<?php echo ($vol["id"]); ?>)" href="javascript:;" title="发布"><i class="Hui-iconfont">&#xe603;</i></a><?php endif; endif; ?>
+					<a style="text-decoration:none" class="ml-5" onClick="article_edit('资讯编辑','article-add.html','10001')" href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a> <a style="text-decoration:none" class="ml-5" onClick="article_del(this,<?php echo ($vol["id"]); ?>)" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+				</tr><?php endforeach; endif; else: echo "" ;endif; ?>
 			</tbody>
 		</table>
 	</div>
 </div>
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/jquery/1.9.1/jquery.min.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/layer/1.9.3/layer.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/My97DatePicker/WdatePicker.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/js/H-ui.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/js/H-ui.admin.js"></script>
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/layer/1.9.3/layer.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/My97DatePicker/WdatePicker.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/js/H-ui.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/js/H-ui.admin.js"></script>
 <script type="text/javascript">
 $('.table-sort').dataTable({
 	"aaSorting": [[ 1, "desc" ]],//默认第几个排序
@@ -103,7 +96,7 @@ function article_add(title,url,w,h){
 	var index = layer.open({
 		type: 2,
 		title: title,
-		content: "__CONTROLLER__/article_add"
+		content: "/wgqproject/index.php/Backend/Info/article_add"
 	});
 	layer.full(index);
 }
@@ -119,7 +112,7 @@ function article_edit(title,url,id,w,h){
 /*资讯-删除*/
 function article_del(obj,id){
 	layer.confirm('确认要删除吗？',function(index){
-		window.location.href ='__CONTROLLER__/delOne/id/'+id;
+		window.location.href ='/wgqproject/index.php/Backend/Info/delOne/id/'+id;
 	});
 }
 /*资讯-审核*/
@@ -149,7 +142,7 @@ function article_stop(obj,id){
 		$(obj).remove();
 		layer.msg('已下架!',{icon: 5,time:1000});*/
 /*
-		$.get("{:U('Info/haha')}",{'id':id},function(data){
+		$.get("<?php echo U('Info/haha');?>",{'id':id},function(data){
 			if(data == 2 ){
 				$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="article_start(this,id)" href="javascript:;" title="发布"><i class="Hui-iconfont">&#xe603;</i></a>');
 				$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已下架</span>');
@@ -159,7 +152,7 @@ function article_stop(obj,id){
 			}
 			
 		})*/
-	window.location.href = '__CONTROLLER__/haha/id/'+id;
+	window.location.href = '/wgqproject/index.php/Backend/Info/haha/id/'+id;
 	//alert(123)
 	});
 }
@@ -171,7 +164,7 @@ function article_start(obj,id){
 		$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已发布</span>');
 		$(obj).remove();
 		layer.msg('已发布!',{icon: 6,time:1000});*/
-		window.location.href = '__CONTROLLER__/haha/id/'+id;
+		window.location.href = '/wgqproject/index.php/Backend/Info/haha/id/'+id;
 	});
 }
 /*资讯-申请上线*/
@@ -192,7 +185,7 @@ $(function(){
   	  	 ids = ids + id[i].value + ','; 
   	  }
   	  ids = ids.substring(0,ids.length-1);
-  	  window.location.href = '__CONTROLLER__/delAll/ids/'+ids;
+  	  window.location.href = '/wgqproject/index.php/Backend/Info/delAll/ids/'+ids;
   })
 	
 })

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE HTML>
 <html>
 <head>
 <meta charset="utf-8">
@@ -11,31 +11,31 @@
 <script type="text/javascript" src="lib/respond.min.js"></script>
 <script type="text/javascript" src="lib/PIE_IE678.js"></script>
 <![endif]-->
-<link href="__PUBLIC__/Backend/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="__PUBLIC__/Backend/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-<link href="__PUBLIC__/Backend/lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
-<link href="__PUBLIC__/Backend/lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
-<link href="__PUBLIC__/Backend/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+<link href="/wgqproject/Public/Backend/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="/wgqproject/Public/Backend/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+<link href="/wgqproject/Public/Backend/lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
+<link href="/wgqproject/Public/Backend/lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
+<link href="/wgqproject/Public/Backend/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
 <!--[if IE 6]>
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/jquery/1.9.1/jquery.min.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/layer/1.9.3/layer.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/My97DatePicker/WdatePicker.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/icheck/jquery.icheck.min.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/Validform/5.3.2/Validform.min.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/webuploader/0.1.5/webuploader.min.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/ueditor/1.4.3/ueditor.config.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/ueditor/1.4.3/ueditor.all.min.js"> </script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/js/H-ui.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/js/H-ui.admin.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/layer/1.9.3/layer.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/My97DatePicker/WdatePicker.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/icheck/jquery.icheck.min.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/Validform/5.3.2/Validform.min.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/webuploader/0.1.5/webuploader.min.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/ueditor/1.4.3/ueditor.config.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/ueditor/1.4.3/ueditor.all.min.js"> </script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/js/H-ui.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/js/H-ui.admin.js"></script> 
 <script type="text/javascript">
 $(function(){
 	$('#getSon').change(function(){
 		var id = $('#getSon').val();
-		$.get("{:U('Info/getSon')}",{'id': id},function(data){
+		$.get("<?php echo U('Info/getSon');?>",{'id': id},function(data){
 			//alert(data);
 			data1 = JSON.parse(data);
 			//console.log(data1);
@@ -53,7 +53,7 @@ $(function(){
 </head>
 <body>
 <div class="pd-20">
-	<form action="__CONTROLLER__/addOK" method="post" class="form form-horizontal" id="form-article-add"enctype="multipart/form-data">
+	<form action="/wgqproject/index.php/Backend/Info/addOK" method="post" class="form form-horizontal" id="form-article-add"enctype="multipart/form-data">
 		<div class="row cl">
 			<label class="form-label col-2"><span class="c-red">*</span>文章标题：</label>
 			<div class="formControls col-10">
@@ -71,9 +71,7 @@ $(function(){
 			<div class="formControls col-2"> <span class="select-box">
 				<select class="select"  id='getSon'>
 					<option value="0">全部栏目</option>
-					<volist name='data' id='vol'>
-					<option value="{$vol.id}">{$vol.name}</option>
-					</volist>
+					<?php if(is_array($data)): $i = 0; $__LIST__ = $data;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vol): $mod = ($i % 2 );++$i;?><option value="<?php echo ($vol["id"]); ?>"><?php echo ($vol["name"]); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
 					
 				</select>
 				</span> </div>
@@ -128,17 +126,17 @@ $(function(){
 		</div>
 	</form>
 </div>
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/jquery/1.9.1/jquery.min.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/layer/1.9.3/layer.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/My97DatePicker/WdatePicker.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/icheck/jquery.icheck.min.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/Validform/5.3.2/Validform.min.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/webuploader/0.1.5/webuploader.min.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/ueditor/1.4.3/ueditor.config.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/ueditor/1.4.3/ueditor.all.min.js"> </script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/js/H-ui.js"></script> 
-<script type="text/javascript" src="__PUBLIC__/Backend/js/H-ui.admin.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/layer/1.9.3/layer.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/My97DatePicker/WdatePicker.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/icheck/jquery.icheck.min.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/Validform/5.3.2/Validform.min.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/webuploader/0.1.5/webuploader.min.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/ueditor/1.4.3/ueditor.config.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/ueditor/1.4.3/ueditor.all.min.js"> </script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/js/H-ui.js"></script> 
+<script type="text/javascript" src="/wgqproject/Public/Backend/js/H-ui.admin.js"></script> 
 <script type="text/javascript">
 $(function(){
 	$('.skin-minimal input').iCheck({
